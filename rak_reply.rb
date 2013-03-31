@@ -1,6 +1,6 @@
 #coding:utf-8
 
-#フルパスをロードマップに追加
+#フルパスをロードパスに追加
 fullpath=File.dirname(File.expand_path(__FILE__))
 $:.unshift fullpath
 

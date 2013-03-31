@@ -1,6 +1,6 @@
 #coding:utf-8
 
-#フルパスをロードマップに追加
+#フルパスをロードパスに追加
 #requireのときに参照する先を増やしている
 #openのときに見るとこもこうやって変えたいな
 fullpath=File.dirname(File.expand_path(__FILE__))
