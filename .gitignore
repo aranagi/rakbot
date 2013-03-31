@@ -1,1 +1,4 @@
 token.rb
+*.dat
+.gitignore
+.htaccess
