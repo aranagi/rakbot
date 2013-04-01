@@ -12,7 +12,7 @@ require 'twitter'
 require 'token.rb'
 
 max=0
-lastid=0
+lastid=0 #最後に返信したtweetのid
 
 #lastid.dat読み込み
 open(fullpath+"/lastid.dat",'r:utf-8') {|file|
@@ -29,26 +29,48 @@ open(fullpath+"/reply.dat",'r:utf-8') {|file|
 #reply読み込み
 Twitter.mentions.reverse_each { |mention| #古いものから処理するためにreverse_each
   id=mention.id.to_i
-  if id <= lastid #既に返信済みのTweetのときスキップ 
+  if id <= lastid #既に返信済みのtweetのときスキップ 
     next
-  else
-    #lastidを更新
-    lastid=id
-    #返信する
-    reply = "@" + mention.user.screen_name + " "
+  else #返信済みでないtweetのとき
   
-    rand=rand(max) #0からmax未満までの乱数を生成する
+    #lastidを更新
+    lastid = id
+    reply = "@" + mention.user.screen_name + " "
 
-    begin
-      open(fullpath+"/reply.dat",'r:utf-8'){ |file|
-        twt=file.readlines[rand]
-        Twitter.update( reply + twt )
-      }
-    #ツイート重複した場合
-    rescue Twitter::Error::Forbidden => error
-      puts error.to_s
-      rand=rand(max) #乱数生成しなおし
-      retry
+
+    #特定ワード反応
+    if /.*おはよ.*/ =~ mention.text then
+      twt = "おはよう。いい天気だな！"
+      Twitter.update( reply + twt )
+      
+    elsif /.*おやす.*/ =~ mention.text then
+      twt = "おやすみ。しっかり寝ておけ。"
+      Twitter.update( reply + twt )
+    
+    elsif /.*ラクトクス.*/ =~ mention.text then
+      twt = "ん？ 長いだろ、ラックって呼んでいいぞ。"
+      Twitter.update( reply + twt )
+
+    elsif /.*ラック.*/ =~ mention.text then
+      twt = "おう、呼んだか？"
+      Twitter.update( reply + twt )
+
+
+    else #ランダム返信
+      rand=rand(max) #0からmax未満までの乱数を生成する
+
+      begin
+        open(fullpath+"/reply.dat",'r:utf-8'){ |file|
+          twt=file.readlines[rand]
+          Twitter.update( reply + twt )
+        }
+      #ツイート重複した場合
+      rescue Twitter::Error::Forbidden => error
+        puts error.to_s
+        rand=rand(max) #乱数生成しなおし
+        retry
+      end
+
     end
 
     #lastid.dat更新
