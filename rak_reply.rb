@@ -36,24 +36,24 @@ Twitter.mentions.reverse_each { |mention| #古いものから処理するため�
     #lastidを更新
     lastid = id
     reply = "@" + mention.user.screen_name + " "
-
+    option={"in_reply_to_status_id"=>mention.id}
 
     #特定ワード反応
     if /.*おはよ.*/ =~ mention.text then
       twt = "おはよう。いい天気だな！"
-      Twitter.update( reply + twt )
+      Twitter.update( reply + twt , option)
       
     elsif /.*おやす.*/ =~ mention.text then
       twt = "おやすみ。しっかり寝ておけ。"
-      Twitter.update( reply + twt )
+      Twitter.update( reply + twt , option )
     
     elsif /.*ラクトクス.*/ =~ mention.text then
       twt = "ん？ 長いだろ、ラックって呼んでいいぞ。"
-      Twitter.update( reply + twt )
+      Twitter.update( reply + twt , option )
 
     elsif /.*ラック.*/ =~ mention.text then
       twt = "おう、呼んだか？"
-      Twitter.update( reply + twt )
+      Twitter.update( reply + twt , option )
 
 
     else #ランダム返信
@@ -62,7 +62,7 @@ Twitter.mentions.reverse_each { |mention| #古いものから処理するため�
       begin
         open(fullpath+"/reply.dat",'r:utf-8'){ |file|
           twt=file.readlines[rand]
-          Twitter.update( reply + twt )
+          Twitter.update( reply + twt , option )
         }
       #ツイート重複した場合
       rescue Twitter::Error::Forbidden => error
