@@ -11,7 +11,7 @@ require 'user_stream'
 require 'twitter'
 
 #tokenの設定
-require 'token.rb' #./が必要
+require 'token.rb'
 
 max=0
 

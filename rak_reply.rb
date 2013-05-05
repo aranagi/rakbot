@@ -55,6 +55,11 @@ Twitter.mentions.reverse_each { |mention| #古いものから処理するため�
       rand=rand(twt.length)
       Twitter.update( reply + twt[rand] , option )
 
+    elsif /.*(ただいま)|(帰宅)|(きたく).*/ =~ mention.text then
+      twt = ["おつかれさん！","おかえり。","家か。懐かしいな・・・"]
+      rand=rand(twt.length)
+      Twitter.update( reply + twt[rand] , option)
+
     elsif /.*(元気)|(げんき)？*.*/ =~ mention.text then
       twt = ["俺は元気だぞ。","調子悪いんだ・・・ごほっ"]
       rand=rand(twt.length)
@@ -70,7 +75,7 @@ Twitter.mentions.reverse_each { |mention| #古いものから処理するため�
       rand=rand(twt.length)
       Twitter.update( reply + twt[rand] , option )
 
-    elsif /.*(なで){2,}.*/ =~ mention.text then
+    elsif /.*((なで)|(ﾅﾃﾞ)|(ナデ)){2,}.*/ =~ mention.text then
       twt = ["な、なんだよ・・・照れるだろ。","くすぐったいな・・・"]
       rand=rand(twt.length)
       Twitter.update( reply + twt[rand] , option )
