@@ -1,2 +1,4 @@
 token.rb
 *.dat
+test.rb
+*.csv
